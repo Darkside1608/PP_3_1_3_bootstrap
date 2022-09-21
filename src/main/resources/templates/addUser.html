@@ -1,0 +1,31 @@
+<h1>Add new User</h1>
+
+<form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
+  <input type="text" th:field="*{username}" id="username"/>
+  <label for="username">Enter username</label>
+  <br/>
+  <input type="text" th:field="*{password}" id="password"/>
+  <label for="password">Enter password</label>
+  <br/>
+  <input type="text" th:field="*{name}" id="USER_NAME"/>
+  <label for="USER_NAME">Enter name</label>
+  <br/>
+  <input type="text" th:field="*{age}" id="USER_AGE"/>
+  <label for="USER_AGE">Enter age</label>
+  <br/>
+  <input type="text" th:field="*{email}" id="USER_EMAIL"/>
+  <label for="USER_EMAIL">Enter email</label>
+  <br/>
+  <th:block th:each="role:${roles}">
+    <lable th:text="${role.getRole()}"></lable>
+    <label>
+      <input type="checkbox" th:field="${user.roles}" th:value="${role.getId()}"/>
+    </label>
+  </th:block>
+  <br/>
+  <br/>
+  <input type="submit" value="Add User"/>
+</form>
+
+</body>
+</html>

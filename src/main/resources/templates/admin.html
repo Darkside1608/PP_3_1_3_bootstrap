@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+</head>
+<body>
+
+<h1>Список пользователей</h1>
+<h3><a th:href="@{/admin/addUser}">Регистрация</a></h3>
+<br/>
+<th:if test="${!empty users}">
+  <table border="1" cellpadding="5">
+    <tr>
+      <th>id</th>
+      <th>username</th>
+      <th>password</th>
+      <th>name</th>
+      <th>age</th>
+      <th>e-mail</th>
+      <th>role</th>
+      <th>action</th>
+    </tr>
+    <tr th:each="user: ${users}">
+      <td th:text="${user.getId()}">id</td>
+      <td th:text="${user.getUsername()}">id</td>
+      <td th:text="${user.getPassword()}">id</td>
+      <td th:text="${user.getName()}">name</td>
+      <td th:text="${user.getAge()}">age</td>
+      <td th:text="${user.getEmail()}">e-mail</td>
+      <td th:text="${user.getRolesString()}">role</td>
+      <td>
+        <a th:href="@{/admin/users/edit/{id}(id=${user.getId()})}">Edit</a>
+        <a th:href="@{/admin/users/remove/{id}(id=${user.getId()})}">Delete</a>
+      </td>
+    </tr>
+  </table>
+</th:if>
+
+
+<h3><a th:href="@{/logout}">Выйти из учетной записи</a></h3>
+
+</body>
+</html>

@@ -5,10 +5,10 @@
 </head>
 <body>
 <h1>Hello!</h1>
-<form th:action="@{/login}" th:method="POST">
-  <button type="submit">ENTER</button>
+<form th:action="@{/login}" th:object="${user}">
+  <input type="submit" value="Enter"/>
 </form>
-
+<br><br>
 
 </body>
 </html>

@@ -35,7 +35,7 @@ public class AdminController {
 
     @GetMapping
     public String getAllUsers(Model model) {
-        List<Role> roles = roleService.findAllRoles();
+        List < Role > roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", new User());
         model.addAttribute("users", userServiceImpl.getAllUsers());
@@ -43,7 +43,7 @@ public class AdminController {
     }
     @GetMapping("/addUser")
     public String addUser(Model model) {
-        List<Role> roles = roleService.findAllRoles();
+        List < Role > roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", new User());
         return "addUser";
@@ -65,13 +65,13 @@ public class AdminController {
 
     @GetMapping("/users/edit/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
-        List<Role> roles = roleService.findAllRoles();
+        List < Role > roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", userServiceImpl.findUserById(id));
         return "edit";
     }
-    @PatchMapping("/users/{id}")
-    public String editUser (@ModelAttribute("user") User user) {
+    @PutMapping("/users/{id}")
+    public String editUser(@ModelAttribute("user") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userServiceImpl.updateUser(user);
 

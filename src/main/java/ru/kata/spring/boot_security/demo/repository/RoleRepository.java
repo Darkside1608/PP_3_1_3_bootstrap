@@ -7,10 +7,8 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import java.util.Set;
 
 @Repository
-
-
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository < Role, Long > {
 
     Role findByRole(String role);
-    Set<Role> findAllByUsersId(long id);
+    Set < Role > findAllByUsersId(long id);
 }

@@ -14,7 +14,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService, UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    public List<User> getAllUsers() {
+    public List < User > getAllUsers() {
         return userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 

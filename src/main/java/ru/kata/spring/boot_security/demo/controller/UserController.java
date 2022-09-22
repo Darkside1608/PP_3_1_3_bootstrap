@@ -11,8 +11,6 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 
 import java.security.Principal;
-
-
 @Controller
 public class UserController {
     private final UserServiceImpl userServiceImpl;
@@ -23,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String showUser (Model model, Principal principal) {
+    public String showUser(Model model, Principal principal) {
         User user = userServiceImpl.findByUsername(principal.getName());
         model.addAttribute("user", user);
         return "user";

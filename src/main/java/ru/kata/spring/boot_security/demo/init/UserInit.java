@@ -13,6 +13,7 @@ import java.util.Set;
 
 @Component
 public class UserInit {
+
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
@@ -23,24 +24,21 @@ public class UserInit {
 
     @PostConstruct
     private void postConstruct() {
-        List < User > users = userService.getAllUsers();
+        List<User> users = userService.getAllUsers();
 
         if (users.isEmpty()) {
             Role admin = new Role("ROLE_ADMIN");
             Role user = new Role("ROLE_USER");
-            Set < Role > adminRole = new HashSet < > ();
-            Set < Role > userRole = new HashSet < > ();
-            Set < Role > anyRole = new HashSet < > ();
+            Set<Role> adminRole = new HashSet<>();
+            Set<Role> userRole = new HashSet<>();
             adminRole.add(admin);
             userRole.add(user);
-            anyRole.add(admin);
-            anyRole.add(user);
             userService.createUser(new User("admin",
-                    passwordEncoder.encode("admin"),
-                    "Admin", (byte) 30, "admin@mail.com", adminRole));
+                passwordEncoder.encode("admin"),
+                "Admin", (byte) 30, "admin@mail.com", adminRole));
             userService.createUser(new User("user",
-                    passwordEncoder.encode("user"),
-                    "User", (byte) 20, "user@yandex.com", userRole));
+                passwordEncoder.encode("user"),
+                "User", (byte) 20, "user@yandex.com", userRole));
 
         }
     }

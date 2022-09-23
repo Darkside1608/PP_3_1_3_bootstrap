@@ -32,16 +32,15 @@ public class User implements UserDetails {
     private String email;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "User_Role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set <Role> roles = new HashSet<>();;
+    @JoinTable(name = "User_Role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+    ;
 
     public User() {
     }
 
-    public User(Long id, String username, String password, String name, byte age, String email, Set<Role> roles) {
+    public User(Long id, String username, String password, String name, byte age, String email,
+        Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -51,7 +50,8 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User(String username, String password, String name, byte age, String email, Set<Role> roles) {
+    public User(String username, String password, String name, byte age, String email,
+        Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -154,28 +154,27 @@ public class User implements UserDetails {
     }
 
 
-
     @Override
     public int hashCode() {
         return Objects.hash(id, password, username);
     }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return id == user.id && password.equals(user.password) && username.equals(user.username);
     }
+
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", email='" + email + '\'' +
-                ", roles=" + roles +
-                '}';
+        return "User{" + "id=" + id + ", username='" + username + '\'' + ", password='" + password
+            + '\'' + ", name='" + name + '\'' + ", age=" + age + ", email='" + email + '\''
+            + ", roles=" + roles + '}';
     }
 }

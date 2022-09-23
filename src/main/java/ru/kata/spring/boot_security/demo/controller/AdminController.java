@@ -27,7 +27,8 @@ public class AdminController {
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AdminController(UserServiceImpl userDetailServiceImpl, RoleService roleService, PasswordEncoder bCryptPasswordEncoder) {
+    public AdminController(UserServiceImpl userDetailServiceImpl, RoleService roleService,
+        PasswordEncoder bCryptPasswordEncoder) {
         this.userServiceImpl = userDetailServiceImpl;
         this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -41,8 +42,9 @@ public class AdminController {
         model.addAttribute("users", userServiceImpl.getAllUsers());
         return "admin";
     }
+
     @GetMapping("/addUser")
-    public String registrUser(Model model) {
+    public String getAddFormUser(Model model) {
         List<Role> roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", new User());
@@ -50,31 +52,30 @@ public class AdminController {
     }
 
     @PostMapping("/users")
-    public String listUser(@ModelAttribute("user") User user) {
+    public String showUser(@ModelAttribute("user") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userServiceImpl.createUser(user);
-
         return "redirect:/admin";
     }
 
     @DeleteMapping("/users/remove/{id}")
-    public String deletUser(@PathVariable("id") Long id) {
+    public String deleteUser(@PathVariable("id") Long id) {
         userServiceImpl.removeUser(id);
         return "redirect:/admin";
     }
 
     @GetMapping("/users/edit/{id}")
-    public String editPage(@PathVariable("id") Long id, Model model) {
+    public String getEditUserFormPage(@PathVariable("id") Long id, Model model) {
         List<Role> roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", userServiceImpl.findUserById(id));
         return "edit";
     }
+
     @PatchMapping("/users/{id}")
-    public String editUser (@ModelAttribute("user") User user) {
+    public String editUser(@ModelAttribute("user") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userServiceImpl.updateUser(user);
-
         return "redirect:/admin";
     }
 }

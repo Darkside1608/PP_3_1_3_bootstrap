@@ -31,19 +31,34 @@ public class User implements UserDetails {
     @Column(name = "USER_EMAIL")
     private String email;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    }, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "User_Role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set < Role > roles = new HashSet < > ();
+    private Set <Role> roles = new HashSet<>();;
 
-    public User() {}
+    public User() {
+    }
 
+    public User(Long id, String username, String password, String name, byte age, String email, Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.roles = roles;
+    }
 
+    public User(String username, String password, String name, byte age, String email, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;
@@ -86,29 +101,25 @@ public class User implements UserDetails {
     }
 
 
-
-    public Set < Role > getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set < Role > roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && password.equals(user.password) && username.equals(user.username);
+    public String getRolesString() {
+        StringBuilder sb = new StringBuilder();
+        for (Role role : roles) {
+            sb.append(role.getRole());
+            sb.append("; ");
+        }
+        return sb.toString();
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, password, username);
-    }
-    @Override
-    public Collection < ? extends GrantedAuthority > getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
 
@@ -141,23 +152,19 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    public User(Long id, String username, String password, String name, byte age, String email, Set < Role > roles) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.age = age;
-        this.email = email;
-        this.roles = roles;
-    }
 
-    public User(String username, String password, String name, byte age, String email, Set < Role > roles) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.age = age;
-        this.email = email;
-        this.roles = roles;
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, password, username);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && password.equals(user.password) && username.equals(user.username);
     }
     @Override
     public String toString() {
@@ -171,14 +178,4 @@ public class User implements UserDetails {
                 ", roles=" + roles +
                 '}';
     }
-
-    public String getRolesString() {
-        StringBuilder sb = new StringBuilder();
-        for (Role role: roles) {
-            sb.append(role.getRole());
-            sb.append("; ");
-        }
-        return sb.toString();
-    }
-
 }

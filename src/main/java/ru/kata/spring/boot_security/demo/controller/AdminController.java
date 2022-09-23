@@ -27,51 +27,51 @@ public class AdminController {
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AdminController(UserServiceImpl userServiceImpl, RoleService roleService, PasswordEncoder bCryptPasswordEncoder) {
-        this.userServiceImpl = userServiceImpl;
+    public AdminController(UserServiceImpl userDetailServiceImpl, RoleService roleService, PasswordEncoder bCryptPasswordEncoder) {
+        this.userServiceImpl = userDetailServiceImpl;
         this.roleService = roleService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping
     public String getAllUsers(Model model) {
-        List < Role > roles = roleService.findAllRoles();
+        List<Role> roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", new User());
         model.addAttribute("users", userServiceImpl.getAllUsers());
         return "admin";
     }
     @GetMapping("/addUser")
-    public String addUser(Model model) {
-        List < Role > roles = roleService.findAllRoles();
+    public String registrUser(Model model) {
+        List<Role> roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", new User());
         return "addUser";
     }
 
     @PostMapping("/users")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String listUser(@ModelAttribute("user") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userServiceImpl.addUser(user);
+        userServiceImpl.createUser(user);
 
         return "redirect:/admin";
     }
 
-    @GetMapping("/users/remove/{id}")
-    public String removeUser(@PathVariable("id") Long id) {
+    @DeleteMapping("/users/remove/{id}")
+    public String deletUser(@PathVariable("id") Long id) {
         userServiceImpl.removeUser(id);
         return "redirect:/admin";
     }
 
     @GetMapping("/users/edit/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
-        List < Role > roles = roleService.findAllRoles();
+        List<Role> roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", userServiceImpl.findUserById(id));
         return "edit";
     }
-    @PutMapping("/users/{id}")
-    public String editUser(@ModelAttribute("user") User user) {
+    @PatchMapping("/users/{id}")
+    public String editUser (@ModelAttribute("user") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userServiceImpl.updateUser(user);
 

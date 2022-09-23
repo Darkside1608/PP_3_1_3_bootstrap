@@ -35,10 +35,10 @@ public class UserInit {
             userRole.add(user);
             anyRole.add(admin);
             anyRole.add(user);
-            userService.addUser(new User("admin",
+            userService.createUser(new User("admin",
                     passwordEncoder.encode("admin"),
                     "Admin", (byte) 30, "admin@mail.com", adminRole));
-            userService.addUser(new User("user",
+            userService.createUser(new User("user",
                     passwordEncoder.encode("user"),
                     "User", (byte) 20, "user@yandex.com", userRole));
 

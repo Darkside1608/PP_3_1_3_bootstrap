@@ -31,7 +31,9 @@
       <td th:text="${user.getRolesString()}">role</td>
       <td>
         <a th:href="@{/admin/users/edit/{id}(id=${user.getId()})}">Edit</a>
-        <a th:href="@{/admin/users/remove/{id}(id=${user.getId()})}">Delete</a>
+        <form th:method="DELETE" th:action="@{/admin/users/remove/{id}(id=${user.getId()})}">
+          <input type="submit" value="Delete"/>
+        </form>
       </td>
     </tr>
   </table>

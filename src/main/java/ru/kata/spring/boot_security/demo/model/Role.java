@@ -1,12 +1,14 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Objects;
+
 import java.util.Set;
 
 @Entity
+@Data
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
 
@@ -15,14 +17,11 @@ public class Role implements GrantedAuthority {
     private Long id;
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
     public Role() {
-    }
-
-    public Role(String role) {
-        this.role = role;
     }
 
     public Role(Long id, String role, Set<User> users) {
@@ -31,50 +30,24 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
+    public Role(String role) {
         this.role = role;
     }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
 
     @Override
     public String getAuthority() {
         return getRole();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    public String getRoleAsString() {
+        String s = "";
+        if (role.contains("ROLE_ADMIN")) {
+            s = "Admin";
+        } else if (role.contains("ROLE_USER")) {
+            s = "User";
         }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Role role1 = (Role) o;
-        return Objects.equals(role, role1.role);
+        return s;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(role);
-    }
+
 }

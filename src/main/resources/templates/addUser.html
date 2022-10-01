@@ -1,31 +1,139 @@
-<h1>Add new User</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
-  <input type="text" th:field="*{username}" id="username"/>
-  <label for="username">Enter username</label>
-  <br/>
-  <input type="text" th:field="*{password}" id="password"/>
-  <label for="password">Enter password</label>
-  <br/>
-  <input type="text" th:field="*{name}" id="USER_NAME"/>
-  <label for="USER_NAME">Enter name</label>
-  <br/>
-  <input type="text" th:field="*{age}" id="USER_AGE"/>
-  <label for="USER_AGE">Enter age</label>
-  <br/>
-  <input type="text" th:field="*{email}" id="USER_EMAIL"/>
-  <label for="USER_EMAIL">Enter email</label>
-  <br/>
-  <th:block th:each="role:${roles}">
-    <lable th:text="${role.getRole()}"></lable>
-    <label>
-      <input type="checkbox" th:field="${user.roles}" th:value="${role.getId()}"/>
-    </label>
-  </th:block>
-  <br/>
-  <br/>
-  <input type="submit" value="Add User"/>
-</form>
+<head>
+  <meta charset="UTF-8">
+  <title>User Info</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+        crossorigin="anonymous">
 
+</head>
+
+<body>
+
+<!--Шапка-->
+<div class="container-fluid">
+  <div class="row bg-dark bg-gradient align-items-center">
+    <div class="col-11">
+                    <span class="nav navbar-text text-white fs-4">
+                        <strong><th:block th:text="${meUser.getEmail}"></th:block></strong>
+                        &nbsp;<th:block th:text="'with roles: '+ ${meUser.getRolesString}"></th:block>
+                    </span>
+    </div>
+    <div class="col-1">
+
+      <!--        Логаут-->
+      <ul class="nav navbar-nav float-end">
+        <li class="nav-item">
+          <a class="nav-link active fs-5 text-white" href="/login">LOGOUT</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--Боковое меню-->
+  <div class="row">
+    <div class="col-md-2 bg-white vh-100"><br>
+      <ul class="nav flex-column nav-pills fs-5">
+        <li class="nav-item">
+          <a class="nav-link active" href="/admin">Admin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user">User info</a>
+        </li>
+      </ul>
+    </div>
+
+    <!--        Основной блок-->
+    <div class="col-md-10 bg-light vh-100"><br>
+      <h1>
+        Admin panel
+      </h1>
+      <!--            Таблица с таблицей-->
+      <table class="table table-striped bg-white align-middle">
+        <thead>
+        <tr>
+          <th>
+            <ul class="nav nav-tabs fw-normal">
+              <li class="nav-item">
+                <a class="nav-link" href="/admin">Users table</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">New user</a>
+              </li>
+            </ul>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <h3>
+              &nbsp;Add new user
+            </h3>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <div align="center">
+                <div class="col-4"></div>
+                <div class="col-4">
+                  <form th:method="POST" th:action="@{/admin}" th:object="${user}">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">First name</label>
+                      <input class="form-control" type="text" th:field="${user.firstName}" id="exampleFormControlInput1">
+                    </div>
+                    <div class="form-group">
+
+                      <div class="form-group">
+                        <label for="exampleFormControlInput2">Last Name</label>
+                        <input class="form-control" type="text" th:field="${user.lastName}" id="exampleFormControlInput2">
+                      </div>
+                      <div class="form-group">
+                        <div class="form-group">
+                          <label for="exampleFormControlInput3">Enter age</label>
+                          <input class="form-control" type="number" th:field="${user.age}" id="exampleFormControlInput3">
+                        </div>
+                        <div class="form-group">
+                          <div class="form-group">
+                            <label for="exampleFormControlInput4">Enter Email</label>
+                            <input class="form-control" type="email" th:field="${user.email}" id="exampleFormControlInput4">
+                          </div>
+                          <div class="form-group">
+                            <div class="form-group">
+                              <label for="exampleFormControlInput5">Enter password</label>
+                              <input class="form-control" type="password" th:field="${user.password}" id="exampleFormControlInput5">
+                            </div>
+                            <div class="form-group">
+                              <label class="container-fluid"><strong>Role</strong>
+                                <select class="form-control" name="roles" multiple size="2">
+                                  <div th:each="role : ${roles}">
+                                    <option th:text="${role.getRoleAsString()}"
+                                            th:value="${role.getId()}"/>
+                                  </div>
+                                </select>
+                            </div>
+                          </div>
+        <tr>
+          <td class="text-center btn-lg" colspan="2">
+            <input class="btn btn-success" type="submit" value="ADD NEW USER"/>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      </form>
+    </div>
+    <div class="col-4"></div>
+  </div>
+  </td>
+  </tr>
+  </tbody>
+  </table>
+</div>
+</div>
+</div>
 </body>
 </html>

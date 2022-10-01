@@ -9,25 +9,29 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 
 import java.util.List;
 
-@Transactional(readOnly = true)
 @Service
+@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleRepository roleRepository;
+    private final RoleRepository roleRepo;
 
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public RoleServiceImpl(RoleRepository roleRepo) {
+        this.roleRepo = roleRepo;
     }
 
     @Override
     public Role findById(Long id) {
-        return roleRepository.findById(id).get();
+        return roleRepo.findById(id).get();
     }
 
+    @Override
+    public Role findByRole(String role) {
+        return findByRole(role);
+    }
 
     @Override
     public List<Role> findAllRoles() {
-        return roleRepository.findAll(Sort.by(Sort.Direction.ASC, "role"));
+        return roleRepo.findAll(Sort.by(Sort.Direction.ASC, "role"));
     }
 }

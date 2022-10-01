@@ -1,18 +1,94 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
-  <title>Spring Security Example</title>
+  <meta charset="UTF-8">
+  <title>User Info</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+        crossorigin="anonymous">
+
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
 
-<p>Username: <a th:text="${user.getName()}">VALUE</a></p>
-<p>Age: <a th:text="${user.getAge()}">VALUE</a></p>
-<p>Email: <a th:text="${user.getEmail()}">VALUE</a></p>
-<p>Login: <a th:text="${user.getUsername()}">VALUE</a></p>
-<p>Role: <a th:text="${user.getRolesString()}">VALUE</a></p>
-<br/>
-<h3><a th:href="@{/logout}">Выйти</a></h3>
+<!--Шапка-->
+<div class="container-fluid">
+  <div class="row bg-dark bg-gradient align-items-center">
+    <div class="col-11">
+                    <span class="nav navbar-text text-white fs-4">
+                        <strong><th:block th:text="${user.getEmail}"></th:block></strong>
+                        &nbsp;<th:block th:text="'with roles: '+ ${user.getRolesString}"></th:block>
+                    </span>
+    </div>
+    <div class="col-1">
 
+      <!--        Логаут-->
+      <ul class="nav navbar-nav float-end">
+        <li class="nav-item">
+          <a class="nav-link active fs-5 text-white" href="/login">LOGOUT</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--Боковое меню-->
+  <div class="row">
+    <div class="col-md-2 bg-white vh-100"><br>
+      <ul class="nav flex-column nav-pills fs-5">
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Admin</a>
+          </li></div>
+        <li class="nav-item">
+          <a class="nav-link active" href="/user">User info</a>
+        </li>
+      </ul>
+    </div>
+
+    <!--        Основной блок-->
+    <div class="col-md-10 bg-light vh-100"><br>
+      <h1>
+        User information page
+      </h1>
+      <!--            Таблица с таблицей-->
+      <table class="table table-striped bg-white align-middle">
+        <tbody>
+        <tr>
+          <td>
+            <h3>
+              &nbsp;About user
+            </h3>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--                        таблица юзеров-->
+            <table class="table table-striped bg-white align-middle">
+              <thead class="fs-5">
+              <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">First Name</th>
+                <th class="text-center">Last Name</th>
+                <th class="text-center">Age</th>
+                <th class="text-center">Email</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="text-center" th:text="${user.getId()}">Id</td>
+                <td class="text-center" th:text="${user.getFirstName()}">First Name</td>
+                <td class="text-center" th:text="${user.getLastName()}">Last Name</td>
+                <td class="text-center" th:text="${user.getAge()}">Age</td>
+                <td class="text-center" th:text="${user.getUsername()}">Username</td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </body>
 </html>

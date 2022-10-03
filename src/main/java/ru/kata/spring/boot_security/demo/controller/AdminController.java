@@ -17,14 +17,13 @@ public class AdminController {
 
     private final UserServiceImpl userDetailServiceImpl;
     private final RoleService roleService;
-    private PasswordEncoder bCryptPasswordEncoder;
+
 
     @Autowired
-    public AdminController(UserServiceImpl userDetailServiceImpl, RoleService roleService,
-        PasswordEncoder bCryptPasswordEncoder) {
+    public AdminController(UserServiceImpl userDetailServiceImpl, RoleService roleService) {
         this.userDetailServiceImpl = userDetailServiceImpl;
         this.roleService = roleService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
     }
 
     @GetMapping(value = "/admin")
@@ -45,12 +44,12 @@ public class AdminController {
         model.addAttribute("roles", roles);
         model.addAttribute("user", new User());
         model.addAttribute("meUser", user);
-        return "addUser";
+        return "userForm";
     }
 
     @PostMapping("/admin")
-    public String showUser(@ModelAttribute("user") User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    public String showAdminPanel(@ModelAttribute("user") User user) {
+        user.setPassword(user.getPassword());
         userDetailServiceImpl.addUser(user);
         return "redirect:/admin";
     }
